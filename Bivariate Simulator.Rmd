@@ -1,0 +1,94 @@
+---
+title: "Developing Data Product Final Project"
+author: "Mohammad Arifur Rahman Bhuiyan"
+date: "February 25, 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# The Assignment 
+
+The goal of this assignment is to build:
+
+1. __A Shiny application__ that has widget input, ui input in `server.R`, reactive output using server calculations, and supporting documentation.
+
+2. __A Reproducible Pitch Presentation__ that contains five slides in either Slidify or Rstudio Presenter that is pushed to and hosted on GitHub or Rpubs and contains embedded `R` code that runs. 
+
+## Links to Project App & Docs
+
+1. Shiny App: 
+2. `server.R` and `ui.R` files: 
+
+## Bivariate (Pearson) Correlation simulation App
+
+Bivariate analysis is one of the simplest forms of quantitative (statistical) analysis.It involves the analysis of two variables (often denoted as X, Y), for the purpose of determining the empirical relationship between them.
+
+This app demonstrate the bi-variate corelation by using simulation.
+
+### Data Source
+
+Data is obtained by user input of number of observation & co-relation.
+
+## Bi-variate co-relation method
+
+Correlation coefficient formulas are used to find how strong a relationship is between data. The formulas return a value between -1 and 1, where:
+
+1 indicates a strong positive relationship.
+-1 indicates a strong negative relationship.
+A result of zero indicates no relationship at all.
+
+##Code UI.R
+
+###Script to demonstrate distributions
+library(eeptools)
+library(shiny)
+library(ggplot2)
+shinyUI(pageWithSidebar(
+  
+  ###Title
+  headerPanel("Simulating Data with Correlation"),
+  
+  sidebarPanel(
+    sliderInput("obs","Number of observations:",
+                min=200,max=5000,value=500,step=250),
+    sliderInput("rho","Correlation Coefficient",
+                min=-1,max=1,value=0,step=0.1)    
+  ),
+  
+  ###GGPLOT
+  
+  mainPanel(
+    plotOutput("distPlot")
+  )
+  
+
+
+
+##Code Server.R
+
+###Script to demonstrate distributions
+library(eeptools)
+library(shiny)
+library(ggplot2)
+
+
+rnormcor <- function(x,rho) rnorm(1,rho*x,sqrt(1-rho^2))
+
+shinyServer(function(input,output){
+  output$distPlot<-reactivePlot(function(){
+    a<-rnorm(input$obs)
+    b<-sapply(a,rnormcor,rho=input$rho)
+    p<-qplot(a,b,alpha=0.85)+geom_smooth(method="lm",se=FALSE,size=1.1)+theme_dpi()
+    p<-p+labs(x="",y="",title="Demonstrating Correlations")
+    p<-p+geom_text(aes(x=-2.5,y=3,label=paste("Corr. =",input$rho,sep=" ")),size=8)
+    print(p)
+    
+  })
+})
+
+  
+
+### Thanks
