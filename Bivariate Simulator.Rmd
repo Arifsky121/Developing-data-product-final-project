@@ -19,8 +19,9 @@ The goal of this assignment is to build:
 
 ## Links to Project App & Docs
 
-1. Shiny App: 
-2. `server.R` and `ui.R` files: 
+1. Shiny App: https://arifsky121.shinyapps.io/Bivariate/
+2. server.R file: https://github.com/Arifsky121/Developing-data-product-final-project/blob/master/server.R
+3.  ui.R file: https://github.com/Arifsky121/Developing-data-product-final-project/blob/master/ui.R
 
 ## Bivariate (Pearson) Correlation simulation App
 
